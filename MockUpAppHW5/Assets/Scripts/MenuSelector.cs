@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class MenuSelector : MonoBehaviour
 {
-    public Customer m_customer;
+    public static Customer m_customer;
     public GameObject m_menuPanel;
     public GameObject m_menuExpand;
+    public GameObject m_cartPanel;
     public static GameObject m_lastItem;
 
     private void Start()
@@ -47,6 +48,11 @@ public class MenuSelector : MonoBehaviour
         m_menuExpand.SetActive(!m_menuExpand.activeSelf);
     }
 
+    public void CartToggle()
+    {
+        m_cartPanel.SetActive(!m_cartPanel.activeSelf);
+    }
+
     public void AddItemToCart()
     {
         Item _item = m_lastItem.GetComponent<Item>();
@@ -60,13 +66,14 @@ public class MenuSelector : MonoBehaviour
         foreach (Item _item in m_customer.GetCart())
         {
             m_customer.itemNames.Add(_item.name);
-            m_customer.finalPrice += _item.price;
+            m_customer.SetPrice(m_customer.GetPrice() + _item.price);
         }
+        m_customer.jsonPrice = m_customer.GetPrice().ToString();
         string jsonString = JsonUtility.ToJson(m_customer);
         Debug.Log(jsonString);
         string filePath = Application.dataPath + "/StreamingAssets/data.json";
         File.WriteAllText(filePath, jsonString);
-        POSTRequest.PostRequest("http://localhost:3000/form", jsonString);
+        StartCoroutine(POSTRequest.PostRequest("http://localhost:3000/form", jsonString));
         Debug.Log("Checked out. Thank you!");
     }
 }

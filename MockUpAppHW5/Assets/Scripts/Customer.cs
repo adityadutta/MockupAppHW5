@@ -7,9 +7,11 @@ using UnityEngine;
 public class Customer
 {
     private List<Item> items = new List<Item>();
+    private float finalPrice;
+
     public int phoneNumber;
     public List<string> itemNames = new List<string>();
-    public float finalPrice;
+    public string jsonPrice;
 
     public void AddItem(Item _item)
     {
@@ -20,6 +22,16 @@ public class Customer
     public List<Item> GetCart()
     {
         return items;
+    }
+
+    public void SetPrice(float _price)
+    {
+        finalPrice = _price;
+    }
+
+    public float GetPrice()
+    {
+        return finalPrice;
     }
 
     public void SetPhoneNumber(int _number)

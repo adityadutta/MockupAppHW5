@@ -52,7 +52,6 @@ public class QRScanner : MonoBehaviour {
             if (result != null)
             {
                 Debug.Log("DECODED TEXT FROM QR: " + result.Text);
-                ScreenCapture.CaptureScreenshot("ss1");
                 camTexture.Stop();
                 SceneManager.LoadScene(result.Text);
             }
