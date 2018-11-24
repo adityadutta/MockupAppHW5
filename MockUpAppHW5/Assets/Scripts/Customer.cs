@@ -9,7 +9,10 @@ public class Customer
     private List<Item> items = new List<Item>();
     private float finalPrice;
 
-    public int phoneNumber;
+    public string name;
+    public string restuarant = "Super Foods";
+    public string address = "1151 Richmond St, London";
+    public string phoneNumber;
     public List<string> itemNames = new List<string>();
     public string jsonPrice;
 
@@ -24,6 +27,17 @@ public class Customer
         return items;
     }
 
+    public float CartSize()
+    {
+        return items.Count;
+    }
+
+    public void ClearCart()
+    {
+        items.Clear();
+        itemNames.Clear();
+    }
+
     public void SetPrice(float _price)
     {
         finalPrice = _price;
@@ -33,8 +47,8 @@ public class Customer
     {
         return finalPrice;
     }
-
-    public void SetPhoneNumber(int _number)
+    
+    public void SetPhoneNumber(string _number)
     {
         phoneNumber = _number;
     }
