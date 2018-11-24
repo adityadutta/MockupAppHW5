@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MenuSelector : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class MenuSelector : MonoBehaviour
     public GameObject m_menuExpand;
     public GameObject m_cartPanel;
     public GameObject m_orderDetailsPanel;
+    public GameObject m_orderCompletedPanel;
 
     public GameObject m_statusText;
     public Text m_finalPrice;
@@ -121,12 +123,11 @@ public class MenuSelector : MonoBehaviour
 
 
         string jsonString = JsonUtility.ToJson(m_customer);
-        Debug.Log(jsonString);
-        string filePath = Application.dataPath + "/StreamingAssets/data.json";
-        File.WriteAllText(filePath, jsonString);
-        StartCoroutine(POSTRequest.PostRequest("http://localhost:3000/form", jsonString));
+        StartCoroutine(POSTRequest.PostRequest("https://aqueous-sea-55584.herokuapp.com/form", jsonString));
         Debug.Log("Checked out. Thank you!");
         m_customer.ClearCart();
+        m_orderCompletedPanel.SetActive(true);
+        m_orderDetailsPanel.SetActive(!m_orderDetailsPanel.activeSelf);
     }
 
     IEnumerator displayStatus(string message)
@@ -135,5 +136,10 @@ public class MenuSelector : MonoBehaviour
         m_statusText.SetActive(true);
         yield return new WaitForSeconds(1.5f);
         m_statusText.SetActive(false);
+    }
+
+    public void LoadScene(string _scene)
+    {
+        SceneManager.LoadScene(_scene);
     }
 }

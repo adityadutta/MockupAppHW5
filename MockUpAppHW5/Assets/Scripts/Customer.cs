@@ -10,7 +10,7 @@ public class Customer
     private float finalPrice;
 
     public string name;
-    public string restuarant = "Super Foods";
+    public string restaurant = "Super Foods";
     public string address = "1151 Richmond St, London";
     public string phoneNumber;
     public List<string> itemNames = new List<string>();
