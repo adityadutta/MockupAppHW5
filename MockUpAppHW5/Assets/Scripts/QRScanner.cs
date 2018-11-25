@@ -7,13 +7,13 @@ using System;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class QRScanner : MonoBehaviour {
+public class QRScanner : MonoBehaviour
+{
 
     private WebCamTexture camTexture;
     private Rect screenRect;
     private Button gbutton;
     public Texture scanner;
-    private Texture scannerImg;
 
     void Start()
     {
@@ -29,17 +29,20 @@ public class QRScanner : MonoBehaviour {
 
     void OnGUI()
     {
+        GUIStyle style = new GUIStyle();
+        style.fontSize = 50;
         // drawing the camera on screen
         GUI.DrawTexture(screenRect, camTexture, ScaleMode.ScaleToFit);
-        //GUI.Box(new Rect(0.0f, 0.0f, Screen.width, Screen.height), scanner);
+        GUI.Box(new Rect(Screen.width / 2.75f, Screen.height / 5.0f, 400, 400), scanner, style);
         // do the reading — you might want to attempt to read less often than you draw on the screen for performance sake   
-        if (GUI.Button(new Rect((Screen.width / 2.0f), Screen.height / 1.25f, 200, 100), "Scan QR"))
+       
+        if (GUI.Button(new Rect((Screen.width / 2.5f), Screen.height / 1.25f, 300, 100), "Scan QR"))
         {
             Debug.Log("Scanning QR");
             ScanQR();
         }
 
-    }                                       
+    }
 
     private void ScanQR()
     {

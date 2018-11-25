@@ -17,12 +17,15 @@ public class MenuSelector : MonoBehaviour
     public GameObject m_orderCompletedPanel;
 
     public GameObject m_statusText;
+
+    public Text m_itemsList;
     public Text m_finalPrice;
     public Text m_numCartItems;
     public Text m_orderFinalPrice;
     public Text m_customerName;
     public Text m_customerAddress;
     public Text m_phoneNumber;
+    public Text m_orderCompleted;
 
     private bool cartToggled = false;
 
@@ -73,6 +76,14 @@ public class MenuSelector : MonoBehaviour
             if (m_menuExpand.activeSelf)
                 m_menuExpand.SetActive(!m_menuExpand.activeSelf);
             cartToggled = true;
+
+            string items = "";
+            foreach(string it in m_customer.itemNames)
+            {
+                items += it + "\n\n";
+            }
+
+            m_itemsList.text = items;
             m_finalPrice.text = "Your Amount: " + m_customer.GetPrice().ToString(); 
         }
         else
@@ -99,6 +110,7 @@ public class MenuSelector : MonoBehaviour
             {
                 m_customer.AddItem(_item);
                 m_customer.SetPrice(m_customer.GetPrice() + _item.price);
+                m_customer.itemNames.Add(_item.name);
                 m_numCartItems.text = m_customer.CartSize().ToString();
                 StartCoroutine(displayStatus(_item.name + " added to cart!"));
             }
@@ -112,15 +124,12 @@ public class MenuSelector : MonoBehaviour
     public void Checkout()
     {
         //settings customer values
-        foreach (Item _item in m_customer.GetCart())
-        {
-            m_customer.itemNames.Add(_item.name);
-        }
         m_customer.jsonPrice = m_customer.GetPrice().ToString();
         m_customer.name = m_customerName.text;
         m_customer.address = m_customerAddress.text;
         m_customer.phoneNumber = m_phoneNumber.text;
 
+        m_orderCompleted.text = "Thank you for your purchase " + m_customer.name + "! \n\nWe will be sending you updates about your order @" + m_customer.phoneNumber + ".";
 
         string jsonString = JsonUtility.ToJson(m_customer);
         StartCoroutine(POSTRequest.PostRequest("https://aqueous-sea-55584.herokuapp.com/form", jsonString));
@@ -132,10 +141,26 @@ public class MenuSelector : MonoBehaviour
 
     IEnumerator displayStatus(string message)
     {
+        if (m_menuPanel.activeSelf)
+        {
+            Vector3 temp = new Vector3(-250.0f, 0.0f, 0.0f);
+            m_statusText.transform.localPosition = temp;
+        }
+        else
+        {
+            Vector3 temp = new Vector3(0.0f, 250.0f, 0.0f);
+            m_statusText.transform.localPosition = temp;
+        }
         m_statusText.GetComponentInChildren<Text>().text = message;
         m_statusText.SetActive(true);
         yield return new WaitForSeconds(1.5f);
         m_statusText.SetActive(false);
+    }
+
+    public void BackOrder()
+    {
+        m_cartPanel.SetActive(!m_cartPanel.activeSelf);
+        m_orderDetailsPanel.SetActive(!m_orderDetailsPanel.activeSelf);
     }
 
     public void LoadScene(string _scene)
