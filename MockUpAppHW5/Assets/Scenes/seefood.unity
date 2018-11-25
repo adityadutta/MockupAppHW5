@@ -4315,7 +4315,7 @@ TextMesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 972136171}
-  m_Text: Pepperonni Pizza
+  m_Text: Pepperoni Pizza
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
@@ -7458,7 +7458,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17ac13dbb584cc046b2d991f59be6a59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: FriedChickenMeal
+  name: Fried Chicken Bucket
   price: 16.99
 --- !u!1 &1591087970
 GameObject:
